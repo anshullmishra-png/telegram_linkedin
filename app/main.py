@@ -68,14 +68,14 @@ def build_application() -> Application:
     config = load_config()
     db.init_db(config.db_path)
     conn = db.open_connection(config.db_path)
-    llm = LLMClient(config.openai_api_key, config.openai_model, conn=conn, transcribe_model=config.openai_transcribe_model)
+    llm = LLMClient(config.gemini_api_key, config.gemini_model, conn=conn, transcribe_model=config.gemini_transcribe_model)
 
     application = (
         Application.builder()
         .token(config.telegram_bot_token)
         # Without this, updates are processed one at a time - a second tap
         # (e.g. Meera retrying "Develop" while the first pick is still
-        # waiting on a slow/retrying OpenAI call) queues up behind it and
+        # waiting on a slow/retrying Gemini call) queues up behind it and
         # its callback query has often expired by the time it's handled,
         # producing a confusing silent "Query is too old" failure.
         .concurrent_updates(True)

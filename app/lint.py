@@ -1,4 +1,4 @@
-"""Deterministic checks and fixes applied to every draft, on top of OpenAI's
+"""Deterministic checks and fixes applied to every draft, on top of Gemini's
 own self-check against Section 17. These catch things a model can drift on
 even when told not to: punctuation fingerprint, banned words, British
 spelling, word count, and no links in the post body.
@@ -95,7 +95,7 @@ def autofix(text: str) -> str:
 
 def check(text: str) -> LintResult:
     """Runs autofix, then returns remaining warnings that need a human look
-    or an OpenAI fix pass rather than a safe mechanical rewrite.
+    or a Gemini fix pass rather than a safe mechanical rewrite.
     """
     fixed = autofix(text)
     warnings: list[str] = []

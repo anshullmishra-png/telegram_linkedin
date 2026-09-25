@@ -97,7 +97,7 @@ async def run_batch(context: ContextTypes.DEFAULT_TYPE) -> None:
         ]
         scores = score_batch(client, score_payload)
         for s in scores:
-            db.record_score(conn, note_id=s.note_id, batch_id=batch_id, score=s.score, reason=s.reason, model=config.openai_model)
+            db.record_score(conn, note_id=s.note_id, batch_id=batch_id, score=s.score, reason=s.reason, model=config.gemini_model)
         conn.commit()
 
         by_note = {n["id"]: n for n in pending}

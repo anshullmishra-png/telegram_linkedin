@@ -98,7 +98,7 @@ async def _handle_pick(update: Update, context: ContextTypes.DEFAULT_TYPE, *, no
         db.set_note_status(conn, note_id, "new")  # give it back, don't leave it stuck
         conn.commit()
         await update.callback_query.message.reply_text(
-            f"Couldn't draft note #{note_id} - OpenAI's API failed after retries: {exc}\n\n"
+            f"Couldn't draft note #{note_id} - Gemini's API failed after retries: {exc}\n\n"
             "The note is back in the backlog, nothing was lost. Try again in a bit, "
             "or pick it from \"Show all\" once things calm down."
         )
@@ -275,7 +275,7 @@ async def handle_private_message(update: Update, context: ContextTypes.DEFAULT_T
         db.log(conn, "error", "review", "revision_failed", draft_id=draft["id"], error=str(exc))
         conn.commit()
         await message.reply_text(
-            f"Couldn't revise that draft - OpenAI's API failed after retries: {exc}\n\n"
+            f"Couldn't revise that draft - Gemini's API failed after retries: {exc}\n\n"
             "Your instruction wasn't lost, but nothing new was generated. Try Revise again "
             "in a bit."
         )

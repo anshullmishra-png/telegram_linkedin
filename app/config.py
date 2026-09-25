@@ -43,9 +43,9 @@ class Config:
     telegram_bot_token: str
     meera_user_id: int
     notes_channel_id: int
-    openai_api_key: str
-    openai_model: str
-    openai_transcribe_model: str
+    gemini_api_key: str
+    gemini_model: str
+    gemini_transcribe_model: str
     db_path: Path
     batch_timezone: str
     batch_time: str  # "HH:MM"
@@ -64,9 +64,9 @@ def load_config() -> Config:
         telegram_bot_token=_require("TELEGRAM_BOT_TOKEN"),
         meera_user_id=_require_int("MEERA_USER_ID"),
         notes_channel_id=_require_int("NOTES_CHANNEL_ID"),
-        openai_api_key=_require("OPENAI_API_KEY"),
-        openai_model=os.environ.get("OPENAI_MODEL", "gpt-4o").strip(),
-        openai_transcribe_model=os.environ.get("OPENAI_TRANSCRIBE_MODEL", "whisper-1").strip(),
+        gemini_api_key=_require("GEMINI_API_KEY"),
+        gemini_model=os.environ.get("GEMINI_MODEL", "gemini-flash-latest").strip(),
+        gemini_transcribe_model=os.environ.get("GEMINI_TRANSCRIBE_MODEL", "gemini-3.5-transcribe").strip(),
         db_path=db_path,
         batch_timezone=os.environ.get("BATCH_TIMEZONE", "Asia/Kolkata").strip(),
         batch_time=os.environ.get("BATCH_TIME", "08:00").strip(),

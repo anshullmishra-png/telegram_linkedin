@@ -17,9 +17,9 @@ private Telegram chat, and Meera always publishes herself.
    Meera gets the top 5 of what's left as tap-to-pick buttons (plus
    "Show all" and "Skip this batch").
 3. For each note she picks: the app searches Google News RSS on the note's
-   tags (last 7 days, up to 3 candidates), OpenAI drafts a 250-450 word
+   tags (last 7 days, up to 3 candidates), Gemini drafts a 250-450 word
    LinkedIn post in her voice (using `docs/voice_extraction.md` and 2-3 of
-   her real LinkedIn posts as examples), a second OpenAI pass checks it
+   her real LinkedIn posts as examples), a second Gemini pass checks it
    against the style checklist and revises once, and deterministic checks
    (`app/lint.py`) fix punctuation/spelling/banned-word issues on top.
 4. Meera gets the draft with Approve / Revise (up to 3 rounds) / Reject
@@ -45,7 +45,7 @@ Required in `.env`:
 | `TELEGRAM_BOT_TOKEN` | [@BotFather](https://t.me/BotFather) - create a bot, then add it as an **admin** of Meera's private notes channel |
 | `MEERA_USER_ID` | Message [@userinfobot](https://t.me/userinfobot) as Meera |
 | `NOTES_CHANNEL_ID` | Forward a channel message to @userinfobot, or check the logs after the bot receives its first channel post (unrecognised chat ids are logged) |
-| `OPENAI_API_KEY` | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
+| `GEMINI_API_KEY` | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
 
 Everything else in `.env.example` has a sensible default.
 
@@ -60,7 +60,7 @@ Everything else in `.env.example` has a sensible default.
   newsletters are out of scope for LinkedIn drafting per the voice file's
   own instructions.
 - Run `python scripts/build_voice_prompt.py` any time to see exactly what
-  gets sent to OpenAI as drafting rules, written to `docs/voice_prompt.txt`.
+  gets sent to Gemini as drafting rules, written to `docs/voice_prompt.txt`.
 
 ### Backlog notes
 
@@ -110,7 +110,7 @@ Tests cover the pieces that don't need live API calls: auth filtering, the
 deterministic lint checks, voice-file section extraction (including that no
 newsletter-only rules leak into the LinkedIn prompt), published-post
 selection, and the database layer (including that rejecting a note parks it
-rather than deleting it). They do not call Telegram or OpenAI.
+rather than deleting it). They do not call Telegram or Gemini.
 
 ## Project layout
 
@@ -123,13 +123,13 @@ app/
   collector.py     channel_post handler: stores every note
   batch.py        the twice-weekly transcribe -> tag -> score -> shortlist job
   review.py       pick / show all / skip / approve / revise / reject handlers
-  drafting.py     OpenAI calls: clean+tag+group, score, draft, self-check, revise
+  drafting.py     Gemini calls: clean+tag+group, score, draft, self-check, revise
   pipeline.py     ties drafting + news + lint into one persisted draft
   news.py         Google News RSS lookup, last 7 days, up to 3 candidates
-  lint.py         deterministic style checks/fixes on top of OpenAI's own check
+  lint.py         deterministic style checks/fixes on top of Gemini's own check
   voice.py        extracts the drafting-relevant sections of the voice file
   published.py    registry of the 4 LinkedIn posts used as few-shot examples
-  llm.py          thin OpenAI client wrapper: retries, JSON schema, logging
+  llm.py          thin Gemini client wrapper: retries, JSON schema, logging
   prompts/        prompt templates
 scripts/
   import_notes.py     one-off import of the 60 backlog notes
@@ -143,7 +143,7 @@ data/
   audio/       downloaded voice notes
 docs/
   voice_extraction.md  the full voice analysis (source of truth)
-  voice_prompt.txt      generated: exactly what's sent to OpenAI (gitignored)
+  voice_prompt.txt      generated: exactly what's sent to Gemini (gitignored)
 tests/
 ```
 
@@ -179,7 +179,7 @@ one or the other against the same Telegram bot token, not both at once
 | `ALLOWED_CHAT_IDS` | comma-separated: Meera's user id and her notes channel id, e.g. `6488544401,-1004380334167` |
 | `GEMINI_API_KEY`, `GEMINI_MODEL` | same as `.env` |
 | `DB_PATH` | defaults to `/tmp/skinstinct.db` - **read the caveat below** |
-| `OUTBOUND_TIMEOUT_SECONDS` | defaults to `12` - the per-call budget for OpenAI/News/Telegram; see the duration-budget note below before raising it |
+| `OUTBOUND_TIMEOUT_SECONDS` | defaults to `12` - the per-call budget for Gemini/News/Telegram; see the duration-budget note below before raising it |
 
 ### ⚠️ `/tmp` is not persistent storage
 
@@ -204,7 +204,7 @@ configurable up to **60s**; **Pro** defaults to 15s, configurable up to
 { "functions": { "api/webhook.py": { "maxDuration": 60 } } }
 ```
 
-**This matters a lot once the draft flow is wired in.** The OpenAI pipeline
+**This matters a lot once the draft flow is wired in.** The Gemini pipeline
 (draft + self-check, each with up to 5 retries and backoff up to ~40s on
 overload - see `app/llm.py`) can take minutes in the worst case, which
 no plan's webhook duration covers. When that flow moves into the webhook,
@@ -259,7 +259,7 @@ curl -X POST "https://api.telegram.org/bot<TELEGRAM_BOT_TOKEN>/deleteWebhook"
 
 ## Safeguards
 
-- **No invented facts.** OpenAI may only reference a headline that the news
+- **No invented facts.** Gemini may only reference a headline that the news
   feed actually returned (checked, not just trusted - see
   `drafting._verify_news_reference_or_drop`), and every scientific claim is
   wrapped in `[VERIFY]` so Meera can check it before publishing.

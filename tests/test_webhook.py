@@ -1,6 +1,6 @@
 """Tests for the Vercel webhook entrypoint (api/webhook.py) against the
 seven hardening requirements. Runs the Flask app's test client; no real
-Telegram/OpenAI/network calls happen here (voice download and callback-query
+Telegram/Gemini/network calls happen here (voice download and callback-query
 paths that would need real HTTP are covered separately or left to manual
 testing against a live deployment).
 """
@@ -16,7 +16,7 @@ ENV = {
     "TELEGRAM_BOT_TOKEN": "123:abc",
     "TELEGRAM_WEBHOOK_SECRET": "test-secret",
     "ALLOWED_CHAT_IDS": "111,-100222",
-    "OPENAI_API_KEY": "x",
+    "GEMINI_API_KEY": "x",
 }
 
 
@@ -124,7 +124,7 @@ def test_missing_env_config_returns_200_not_crash(monkeypatch, tmp_path):
     monkeypatch.delenv("ALLOWED_CHAT_IDS", raising=False)
     monkeypatch.delenv("TELEGRAM_WEBHOOK_SECRET", raising=False)
     monkeypatch.delenv("TELEGRAM_BOT_TOKEN", raising=False)
-    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
 
     import api.webhook as webhook_module
 

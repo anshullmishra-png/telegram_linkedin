@@ -32,8 +32,8 @@ class WebhookConfig:
     bot_token: str
     webhook_secret: str
     allowed_chat_ids: frozenset[int]
-    openai_api_key: str
-    openai_model: str
+    gemini_api_key: str
+    gemini_model: str
     db_path: str
     # Per-outside-call timeout budget. Kept short and configurable because
     # the whole handler must finish inside Vercel's function duration limit -
@@ -64,8 +64,8 @@ def load_webhook_config() -> WebhookConfig:
         bot_token=_require("TELEGRAM_BOT_TOKEN"),
         webhook_secret=_require("TELEGRAM_WEBHOOK_SECRET"),
         allowed_chat_ids=allowed,
-        openai_api_key=_require("OPENAI_API_KEY"),
-        openai_model=os.environ.get("OPENAI_MODEL", "gpt-4o-mini").strip(),
+        gemini_api_key=_require("GEMINI_API_KEY"),
+        gemini_model=os.environ.get("GEMINI_MODEL", "gemini-flash-lite-latest").strip(),
         # /tmp is the only writable path in a Vercel serverless function, and
         # it is NOT reliably persistent - see the README callout. Fine for
         # local `vercel dev` testing; production needs a hosted DB.

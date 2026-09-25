@@ -12,7 +12,7 @@ Covers, in order:
      and nothing is read from the body.
   5. De-dupes by update_id (app/db.py's processed_updates table), so a
      Telegram retry of an update we already handled is a no-op.
-  6. Every outside call (OpenAI, Google News, Telegram itself) carries the
+  6. Every outside call (Gemini, Google News, Telegram itself) carries the
      configured timeout - see app/webhook_config.py and the README's
      "Vercel webhook" section for the duration-budget discussion.
   7. Always returns 200 for anything handled, ignored, or deduped, so

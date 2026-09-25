@@ -1,5 +1,5 @@
 """Manually triggers one batch run immediately, for testing without waiting
-for Monday/Thursday 8am. Needs a real .env (Telegram + OpenAI credentials).
+for Monday/Thursday 8am. Needs a real .env (Telegram + Gemini credentials).
 
 Usage: python scripts/run_batch_now.py
 """
@@ -23,7 +23,7 @@ async def main() -> None:
     config = load_config()
     db.init_db(config.db_path)
     conn = db.open_connection(config.db_path)
-    llm = LLMClient(config.openai_api_key, config.openai_model, conn=conn, transcribe_model=config.openai_transcribe_model)
+    llm = LLMClient(config.gemini_api_key, config.gemini_model, conn=conn, transcribe_model=config.gemini_transcribe_model)
 
     application = Application.builder().token(config.telegram_bot_token).build()
     application.bot_data["config"] = config

@@ -99,7 +99,7 @@ async def process_new_note(update: Update, context: ContextTypes.DEFAULT_TYPE, n
             conn.commit()
             return
         score, reason = scores[0].score, scores[0].reason
-        db.record_score(conn, note_id=note_id, batch_id=batch_id, score=score, reason=reason, model=config.openai_model)
+        db.record_score(conn, note_id=note_id, batch_id=batch_id, score=score, reason=reason, model=config.gemini_model)
         conn.commit()
 
         if score < REJECT_THRESHOLD:

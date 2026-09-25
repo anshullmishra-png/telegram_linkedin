@@ -7,7 +7,7 @@ from app.config import Config
 def _config() -> Config:
     return Config(
         telegram_bot_token="x", meera_user_id=111, notes_channel_id=-100222,
-        openai_api_key="x", openai_model="x", openai_transcribe_model="x", db_path="x",
+        gemini_api_key="x", gemini_model="x", gemini_transcribe_model="x", db_path="x",
         batch_timezone="Asia/Kolkata", batch_time="08:00",
     )
 

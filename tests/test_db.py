@@ -128,6 +128,6 @@ def test_migration_preserves_scores_from_old_1_to_5_schema(tmp_path):
         assert row["score"] == 4  # old value preserved as-is
         assert row["reason"] == "old-scale score"
         # new constraint now allows values the old one would have rejected
-        db.record_score(conn, note_id=1, batch_id=1, score=9, reason="new-scale score", model="gpt-4o")
+        db.record_score(conn, note_id=1, batch_id=1, score=9, reason="new-scale score", model="gemini-2.0-flash")
         latest = db.latest_score_for_note(conn, 1)
         assert latest["score"] == 9

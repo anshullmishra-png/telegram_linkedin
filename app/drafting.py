@@ -1,4 +1,4 @@
-"""Orchestrates the OpenAI calls for cleaning/tagging, scoring, drafting and
+"""Orchestrates the Gemini calls for cleaning/tagging, scoring, drafting and
 self-checking. Loads prompt templates from app/prompts/ and combines them
 with the voice rules (app/voice.py) and example posts (app/published.py).
 """
@@ -20,7 +20,7 @@ def _load_prompt(name: str) -> str:
     return (PROMPTS_DIR / name).read_text(encoding="utf-8")
 
 
-# --- JSON schemas for structured OpenAI output ------------------------------
+# --- JSON schemas for structured Gemini output ------------------------------
 
 CLEAN_TAG_SCHEMA = {
     "type": "object",

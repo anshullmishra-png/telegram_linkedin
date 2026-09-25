@@ -23,7 +23,7 @@ from app.news_config import INDIA_CATEGORIES
 
 def _news_test(note_text: str) -> None:
     config = load_config()
-    client = LLMClient(config.openai_api_key, config.openai_model, timeout_seconds=15)
+    client = LLMClient(config.gemini_api_key, config.gemini_model, timeout_seconds=15)
 
     keywords = extract_news_keywords(client, note_text=note_text)
     print("=== keyword extraction ===")

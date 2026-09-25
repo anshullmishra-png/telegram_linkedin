@@ -1,4 +1,4 @@
-"""Ties together news lookup, drafting, the OpenAI self-check pass, and the
+"""Ties together news lookup, drafting, the Gemini self-check pass, and the
 deterministic lint checks (app/lint.py) into one call that produces a
 persisted draft row.
 
