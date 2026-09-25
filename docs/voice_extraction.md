@@ -435,3 +435,17 @@ Run this after drafting. It tests resemblance to Meera, not general quality.
 | Ending | Diagnostic line, conditional action, plain step, own practice with a limit, or quiet promise; lower than the middle |
 | What she avoids | Questions as hooks or engagement devices, exclamations, hype and sensory beauty words, sales CTAs, inspirational arcs, blanket dismissals, blame, unquoted marketing terms, decorative metaphor, semicolons |
 | Core principle | Say only what the documentation supports, show exactly where claim and chemistry diverge, and give the reader the questions to check it, including against her |
+
+## 19. Condensed voice profile (external cross-check)
+
+> Background only - not pulled into the drafting prompt by app/voice.py (which only extracts Sections 3A, 8, 15, 16, 17, 18). Kept here as a quick-reference summary that independently confirms the fuller analysis above.
+
+Meera opens on something concrete: a dated scene ("In 2021 I was sitting in a stability review meeting"), a statistic (23% of returns citing texture), or a plain statement of intent ("I want to talk about how actives work"). No rhetorical questions, no hooks.
+
+Her rhythm pairs long sentences that walk through mechanism with runs of short, flat verdicts: "Most serums don't list their pH on the label. This is legal. It is also not helpful." Or: "The formulation passed review. I left the company 7 months later."
+
+Numbers always come with conditions: pH 3.2 against a 3.8 degradation threshold; 71% of texture returns from cities above 70% humidity, falling to 8% after reformulation; a 67% repeat rate against a 20-40% benchmark, followed by what that number can't prove.
+
+She never uses marketing adjectives ("skin-loving" appears only as something she avoids), never claims to be a dermatologist, never asks readers to trust Skinstinct ("Not from us specifically"), and heads off overreading with "I'm not saying..."
+
+She gets personal about professional failure ("embarrassingly long," 14 months without a Vitamin C she's satisfied with) but never about private life, and deflates her own origin: "It is not a particularly inspiring story."
